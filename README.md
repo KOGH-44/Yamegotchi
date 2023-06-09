@@ -16,7 +16,8 @@ Git hub : https://github.com/KOGH-44/Yamegotchi
 
 
 2) 구조
-@@@@@@@@@@@여기에 만들어진 표
+![제목 없는 다이어그램 drawio](https://github.com/KOGH-44/Yamegotchi/assets/129154514/b527841f-649e-4f86-bbc3-980c40e00080)![제목 없는 다이어그램 drawio (1)](https://github.com/KOGH-44/Yamegotchi/assets/129154514/4b90dbca-1377-466d-957c-e52bd638ad38)
+
 
 3) 구현 목록
 animal class : 모든 생물이 공통적으로 가지고 있는 변수와 상황을 함수로 구현
@@ -25,7 +26,7 @@ plant class : 애니멀을 상속 받은후 식물만의 특징을 가진 객체
 
 진화 시스템 - 시간에 따른 몬스터의 변화를 구현
 
-4)게임 플레이 방법
+4) 게임 플레이 방법
   1.git clone https://github.com/KOGH-44/Yamegotchi 을 통해 파일을 복사.
   2.vs code를 이용하여 main.cpp을 윈도우 환경에서 실행.
   3.안내 메시지에 따라 1번(새) 혹은 2번(식물)을 입력.
@@ -36,7 +37,7 @@ plant class : 애니멀을 상속 받은후 식물만의 특징을 가진 객체
 
 
 
-4) 개선 사항
+5) 개선 사항
 몬스터의 이름을 영어로만 입력 받을수 있다.
 bird, plant 외에도 더 다양한 클래스를 만들면 좋을것 같다.
 몬스터와 좀 더 상호작용하거나 미니게임을 추가하면 좋을것 같다.
