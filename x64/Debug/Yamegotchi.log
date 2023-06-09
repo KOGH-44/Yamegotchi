@@ -1,9 +1,0 @@
-﻿  main.cpp
-D:\projects\Yamegotchi\Yamegotchi\main.cpp(123,20): warning C4244: '초기화 중': 'int'에서 'float'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\projects\Yamegotchi\Yamegotchi\main.cpp(129,62): warning C4305: '=': 'double'에서 'float'(으)로 잘립니다.
-D:\projects\Yamegotchi\Yamegotchi\main.cpp(137,20): warning C4305: '=': 'double'에서 'float'(으)로 잘립니다.
-D:\projects\Yamegotchi\Yamegotchi\main.cpp(144,34): warning C4244: '인수': 'float'에서 'int'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-D:\projects\Yamegotchi\Yamegotchi\main.cpp(242): warning C4715: 'test2': 모든 제어 경로에서 값을 반환하지는 않습니다.
-D:\projects\Yamegotchi\Yamegotchi\main.cpp(266): warning C4715: 'test3': 모든 제어 경로에서 값을 반환하지는 않습니다.
-D:\projects\Yamegotchi\Yamegotchi\main.cpp(218): warning C4715: 'print_myMonster': 모든 제어 경로에서 값을 반환하지는 않습니다.
-  Yamegotchi.vcxproj -> D:\projects\Yamegotchi\x64\Debug\Yamegotchi.exe
