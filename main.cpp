@@ -9,6 +9,7 @@
 #include <thread>
 #include <random>
 #include <conio.h>
+// 깃 테스트 발사
 using namespace std;
 int type_input;
 int cases = 999;
