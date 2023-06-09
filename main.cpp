@@ -42,16 +42,26 @@ public:
 };
 
 class Bird : public Animal {
+	/*
+	Animal 클래스에서 상속받고 fly 함수를 추가로 구현
+	*/
 public:
 	void fly();
 };
 
 class Plant : public Animal {
+	/*
+	Animal 클래스에서 상속받고 blossom 함수를 추가로 구현
+	*/
 public:
 	void blossom();
 };
 
 bool checkKeyPressedWithinTime(int seconds, Animal& ani_obj/*, int cases*/) {
+	/*
+	시간안에 키를 입력하도록 요구하는 함수
+	만약 키입력 못할 경우 HP감소하도록 구현
+	*/
 	time_t start = time(nullptr); // 현재 시간 가져오기
 	time_t end = start + seconds; // 종료 시간 설정
 	//cout << "키를 입력하세요!" << endl;
@@ -117,13 +127,16 @@ bool checkKeyPressedWithinTime(int seconds, Animal& ani_obj/*, int cases*/) {
 }
 
 int Animal::getlevel() {
+	//Animal의 레벨 구하는 함수
 	return level;
 }
 char* Animal::getName() {
+	//Animal의 이름 구하는 함수
 	return name;
 }
 
 void Animal::setName(const char* animalName) {
+	//Animal의 이름 설정하는 함수
 	if (name != nullptr) {
 		delete[] name;
 	}
@@ -132,15 +145,18 @@ void Animal::setName(const char* animalName) {
 }
 
 void Animal::startHPDecrease() {
+	//Anima이 시간이 지남에 따라 HP감소 구현.
+	//해당함수는 독립적으로 작동해야하기 때문에 스레드함수로 구현함.
 	thread t(&Animal::decreaseHP, this);
 	t.detach();
 }
 
 void Animal::randomSituations() {
+	// 랜덤한 시간마다 랜덤한 상황을 벌이고 처리(HP회복 및 EXP획득 / HP타격) 하는 함수
 	int SituationCase = 0;
 	int RandomDelayTime = 0;
 	while (1) {
-		// 랜덤한 시간마다 랜덤한 상황을 벌이고 처리(HP회복 및 EXP획득 / HP타격) 
+		
 		RandomDelayTime = rand() % 50 + 10; //100~199까지 하나의 시간을 골라서 일이 벌어진다.
 		Sleep(RandomDelayTime * 300);
 		SituationCase = rand() % 4;
@@ -174,6 +190,7 @@ void Animal::randomSituations() {
 }
 
 void Animal::randomSituationStart() {
+	// randomSituations 함수를 스레드로 작동하기 위해 구현된 함수
 	thread rt(&Animal::randomSituations, this);
 	rt.detach();
 }
@@ -181,8 +198,11 @@ void Animal::randomSituationStart() {
 
 
 void Animal::decreaseHP() {
+	/*
+	시간이 지남에 따라 HP감소하는 함수, 만약 HP가 0이되면 게임오버 파일을 출력하는 함수
+	*/
 	//int totalSeconds = 30;
-	int decreaseAmount = 1;
+	int decreaseAmount = 1; // HP 감소량
 
 	while (hp >= 0) {
 		std::this_thread::sleep_for(std::chrono::seconds(10));
@@ -231,6 +251,10 @@ void Animal::decreaseHP() {
 //}
 
 void Animal::decreaseHP_(int amount) {
+	/*
+	함수 checkKeyPressedWithinTime 에서 요구사항에 만족하지 못할경우 실행됨.
+	불이익 수치(amount)만큼 HP가 감소. 만약 HP가 0 이하가 되면 게임오버 화면을 출력함.
+	*/
 	hp -= amount;
 	checkStatus();
 	if (hp <= 0) {
@@ -264,6 +288,9 @@ void Animal::decreaseHP_(int amount) {
 
 
 void Animal::increaseEXP(int amount) {
+	/*
+	exp 증가하는 함수, 만약 level_cnt보다 넘게되면 레벨업 하도록 구현.
+	*/
 	exp += amount;
 	static int level_cnt = 100;
 	if (exp >= level_cnt)
@@ -275,6 +302,9 @@ void Animal::increaseEXP(int amount) {
 }
 
 void Animal::restoreHP(int amount) {
+	/*
+	체력 회복하는 함수, 만약 체력이 100을 넘으면 100이되도록 구현
+	*/
 	hp += amount;
 	if (hp > 100) {
 		hp = 100;
@@ -283,6 +313,8 @@ void Animal::restoreHP(int amount) {
 }
 
 void Animal::checkStatus() {
+	/*상태 이상을 출력하는 함수. 만약 HP가 30 미만일 경우 이상상태를 출력한다.
+	*/
 	if (hp < 30) {
 		status = 2;
 
@@ -294,7 +326,7 @@ void Animal::checkStatus() {
 
 
 void Animal::printInfo() {
-	
+	//화면에 Animal의 정보를 출력하는 함수
 	std::cout << "이름: " << name << std::endl;
 	std::cout << "레벨: " << level << std::endl;
 	std::cout << "경험치: " << exp << std::endl;
@@ -376,7 +408,7 @@ void Animal::printInfo() {
 }
 
 void Animal::playMonster(void)
-{
+{	// 몬스터를 놀아주고 경험치를 획득하는 함수. 경험치는 Rand()함수를 사용하여 구현함.
 	// 시드 설정
 	//srand(static_cast<unsigned int>(time(nullptr)));
 	const int default_EXP = 200;
@@ -408,7 +440,7 @@ void Animal::playMonster(void)
 }
 
 void Animal::levelUp(void)
-{
+{ //레벨업 하는 함수, 레벨업시 HP를 100으로 초기화
 	Animal::level++;
 	Animal::hp = 100;
 }
@@ -421,7 +453,7 @@ void Bird::fly() {
 	
 	 /*
 	 스레드 독립, t or T 입력받으면 출력
-
+	 1초동안 동작 이후 원래 상태로 복귀
 	 */
 	while (1)
 	{	
@@ -443,7 +475,7 @@ void Bird::fly() {
 void Plant::blossom() {
 	/*
 	 스레드 독립, p or P 입력받으면 출력
-
+	 1초동안 동작 이후 원상태 복귀
 	 */
 	while (1) 
 	{
@@ -463,7 +495,7 @@ void Plant::blossom() {
 }
 int print_myMonster(Animal& chick_obj, string base, string type_)
 {
-
+	//몬스터에 대한 그림을 출력하는 함수
 	std::string baseName = base;/*"알에서막부화한병아리";*/ // 파일들의 공통 부분
 	std::string type = type_;
 	std::string extension = ".txt"; // 파일 확장자
@@ -854,56 +886,10 @@ int print_myMonster(Animal& chick_obj, string base, string type_)
 	}
 }
 
-int test2()
-{
-
-	std::string filename = "size_test2.txt"; // 입력받을 파일 이름
-
-	// 파일 열기
-	std::ifstream file(filename);
-	if (!file.is_open())
-	{
-		std::cout << "파일을 열 수 없습니다." << std::endl;
-		return 1;
-	}
-
-	// 파일 내용 출력
-	std::string line;
-	while (std::getline(file, line))
-	{
-		std::cout << line << std::endl;
-	}
-
-	// 파일 닫기
-	file.close();
-}
-
-int test3()
-{
-
-	std::string filename = "size_test3.txt"; // 입력받을 파일 이름
-
-	// 파일 열기
-	std::ifstream file(filename);
-	if (!file.is_open())
-	{
-		std::cout << "파일을 열 수 없습니다." << std::endl;
-		return 1;
-	}
-
-	// 파일 내용 출력
-	std::string line;
-	while (std::getline(file, line))
-	{
-		std::cout << line << std::endl;
-	}
-
-	// 파일 닫기
-	file.close();
-}
 
 
 void gamestart() {
+	//게임 시작하는 함수
 	srand(static_cast<unsigned int>(time(nullptr)));
 	cout << "타입을 정하시오: 1(새), 2(식물)" << endl;
 	cin >> type_input;
