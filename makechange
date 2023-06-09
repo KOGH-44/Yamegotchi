@@ -10,11 +10,11 @@
 #include <random>
 #include <conio.h>
 using namespace std;
-
-bool evo_flag = true;
+int type_input;
 int cases = 999;
 bool is_alive = true;
 bool keyboardInput = false;
+bool evo_flag = true;
 class Animal {
 private:
 	int level = 0;    // 레벨
@@ -313,7 +313,7 @@ void Animal::printInfo() {
 		cout << "상태: 슬픔" << endl;
 	}
 	else if (cases == 3) {
-		cout << "상태: 즐거움" << endl;
+		cout << "상태: 심심함" << endl;
 	}
 
 	if (hp <= 30) {
@@ -333,8 +333,46 @@ void Animal::printInfo() {
 		cout << name << "에게 r(R)을 눌러 놀아주세요~" << endl;
 	}
 	if (keyboardInput) {
-		cout << name << "특수효과 발생" << endl;
+		switch (type_input)
+		{
+		case 1://새
+			if (level <= 2)//알
+				cout << name << "(이) 가 부화 하려 합니다" << endl;
+
+			else if (level <= 5)//알병아리
+				cout << name << "(이) 가 머리를 흔듭니다" << endl;
+
+			else if (level <= 7)//걷는병아리
+				cout << name << "(이)가 걷고 있습니다" << endl;
+
+			else if (level <= 9)//닭
+				cout << name << "(이)가 인사를 합니다" << endl;
+
+			else if (level >= 10)//주작
+				cout << name << "(이)가 날개짓을  합니다" << endl;
+
+			break;
+
+		case 2://식물
+			if (level <= 2)//씨앗
+				cout << name << "(이) 흔들립니다" << endl;
+
+			else if (level <= 5)//새싹
+				cout << name << "(이) 가 자라고 있습니다" << endl;
+
+			else if (level <= 7)//좀큰나무
+				cout << name << "(이)가 더욱 더 자라고 있습니다" << endl;
+
+			else if (level <= 9)//다큰나무
+				cout << name << "(이)가 바람에 흔들립니다" << endl;
+
+			else if (level >= 10)//밑동
+				cout << name << "(이)가 슬퍼 보입니다." << endl;
+			break;
+		}
+
 	}
+
 }
 
 void Animal::playMonster(void)
@@ -864,11 +902,10 @@ int test3()
 	file.close();
 }
 
-int main()
-{
+
+void gamestart() {
 	srand(static_cast<unsigned int>(time(nullptr)));
 	cout << "타입을 정하시오: 1(새), 2(식물)" << endl;
-	int type_input;
 	cin >> type_input;
 	char* char_name = NULL;
 	std::cout << "캐릭터의 이름을 입력하세요: ";
@@ -880,12 +917,12 @@ int main()
 		type_name = "조류";
 
 		Bird myAnimal;
-		
+
 		/*std::getline(std::cin, name);
 		myAnimal.setName(name.c_str());*/
-		
+
 		myAnimal.setName(name.c_str());
-		std :: thread t(&Bird::fly, &myAnimal);
+		std::thread t(&Bird::fly, &myAnimal);
 		t.detach();
 		// 게임 시작
 		myAnimal.startHPDecrease();
@@ -908,7 +945,7 @@ int main()
 			case 2:
 				filename = "유년기(";
 				filename += type_name + ")";
-				
+
 				print_myMonster(myAnimal, filename, type_name);
 				break;
 			case 3:
@@ -916,25 +953,25 @@ int main()
 			case 5:
 				filename = "성장기(";
 				filename += type_name + ")";
-				
+
 				print_myMonster(myAnimal, filename, type_name);
 				break;
 			case 6:
 			case 7:
-				
+
 				filename = "성숙기(";
 				filename += type_name + ")";
 				print_myMonster(myAnimal, filename, type_name);
 				break;
 			case 8:
 			case 9:
-				
+
 				filename = "완전체(";
 				filename += type_name + ")";
 				print_myMonster(myAnimal, filename, type_name);
 				break;
 			default:
-				
+
 				filename = "궁극체(";
 				filename += type_name + ")";
 				print_myMonster(myAnimal, filename, type_name);
@@ -953,7 +990,7 @@ int main()
 
 	else if (type_input == 2)
 	{
-		
+
 		Plant myAnimal;
 		type_name = "식물";
 		/*std::getline(std::cin, name);
@@ -1023,5 +1060,11 @@ int main()
 			myAnimal.playMonster();
 		}
 	}
-	return 0;
+	
+}
+
+
+int main()
+{
+	gamestart();
 }
