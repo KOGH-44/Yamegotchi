@@ -908,8 +908,8 @@ void gamestart() {
 		myAnimal.setName(name.c_str());*/
 
 		myAnimal.setName(name.c_str());
-		//std::thread t(&Bird::fly, &myAnimal);
-		//t.detach();
+		std::thread t(&Bird::fly, &myAnimal);
+		t.detach();
 		// 게임 시작
 		myAnimal.startHPDecrease();
 		myAnimal.randomSituationStart(); // 랜덤 상황 함수도 같이 돌려준다.
@@ -981,8 +981,8 @@ void gamestart() {
 		type_name = "식물";
 		/*std::getline(std::cin, name);
 		myAnimal.setName(name.c_str());*/
-		//std::thread t(&Plant::blossom, &myAnimal);
-		//t.detach();
+		std::thread t(&Plant::blossom, &myAnimal);
+		t.detach();
 		myAnimal.setName(name.c_str());
 
 		// 게임 시작
